@@ -9,12 +9,13 @@ public:
   TileParser();
   void draw();
 private:
-  int mapWidth;
-  int mapHeight;
-  int tileWidth;
-  int tileHeight;
-  int tileCount;
-  int columns;
+  int mapWidth{0};
+  int mapHeight{0};
+  int tileWidth{0};
+  int tileHeight{0};
+  int tileCount{0};
+  int columns{0};
+
   Texture2D tileset;
   std::vector<int> tilemap;
 

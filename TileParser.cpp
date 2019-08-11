@@ -16,8 +16,8 @@ TileParser::TileParser() {
   mapHeight = mapElement->IntAttribute("height");
 
   tinyxml2::XMLElement* tilesetElement = mapElement->FirstChildElement("tileset");
-  tileWidth = tilesetElement->IntAttribute("tileWidth");
-  tileHeight = tilesetElement->IntAttribute("tileHeight");
+  tileWidth = tilesetElement->IntAttribute("tilewidth");
+  tileHeight = tilesetElement->IntAttribute("tileheight");
   tileCount = tilesetElement->IntAttribute("tilecount");
   columns = tilesetElement->IntAttribute("columns");
 
@@ -45,7 +45,7 @@ std::vector<int> TileParser::parseGidCsv(std::string gidCsv) {
 }
 
 void TileParser::draw() {
-  float scale = 0;
+  float scale = 1;
   int row = 0;
   int column = 0;
   for(auto i = tilemap.begin(); i != tilemap.end(); ++i) {
