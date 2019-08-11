@@ -13,7 +13,8 @@
         "${fileDirname}/lib/tinyxml2/tinyxml2.o",
         "-o",
         "${fileDirname}/${fileBasenameNoExtension}",
-        "-I${fileDirname}/lib/tinyxml2"
+        "-I${fileDirname}/lib/tinyxml2",
+        "-lraylib"
       ],
       "options": {
         "cwd": "/usr/bin"
