@@ -13,6 +13,15 @@ int main(void) {
 
     TileParser map1;
 
+    Vector2 player{200, 200};
+
+    Camera2D camera = { 0 };
+    camera.target = (Vector2){ player.x + 20, player.y + 20 };
+    camera.offset = (Vector2){ 0, 0 };
+    camera.rotation = 0.0f;
+    camera.zoom = 1.0f;
+
+
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
 
@@ -21,7 +30,27 @@ int main(void) {
     {
         // Update
         //----------------------------------------------------------------------------------
-        // TODO: Update your variables here
+        if(IsKeyDown(KEY_D)) {
+          player.x += 3;
+          camera.offset.x -= 3;
+        }
+
+        if(IsKeyDown(KEY_A)) {
+          player.x -= 3;
+          camera.offset.x += 3;
+        }
+
+        if(IsKeyDown(KEY_S)) {
+          player.y += 3;
+          camera.offset.y -= 3;
+        }
+
+        if(IsKeyDown(KEY_W)) {
+          player.y -= 3;
+          camera.offset.y += 3;
+        }
+
+        camera.target = player;
         //----------------------------------------------------------------------------------
 
         // Draw
@@ -29,7 +58,10 @@ int main(void) {
         BeginDrawing();
 
             ClearBackground(RAYWHITE);
-            map1.draw();
+            BeginMode2D(camera);
+              map1.draw(camera, screenWidth, screenHeight);
+            DrawRectangle(player.x, player.y, 40, 40, RED);
+            EndMode2D();
 
 
         EndDrawing();
