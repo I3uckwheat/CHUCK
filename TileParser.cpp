@@ -45,20 +45,20 @@ std::vector<int> TileParser::parseGidCsv(std::string gidCsv) {
   return numVector;
 }
 
+
 void TileParser::draw(Camera2D& camera, int screenWidth, int screenHeight) {
-  int scale = 3;
+  int scale =  3;
 
-  int startRow = -(camera.offset.x) / (tileWidth * scale);
-  int startColumn = -(camera.offset.y) / (tileHeight * scale);
-  std::cout<<startRow<<" , "<<startColumn<<'\n';
+  int startRow = -camera.offset.x / (tileHeight * scale);
+  int startCol = -camera.offset.y / (tileWidth * scale);
 
-  int maxTilesX = (screenHeight / (tileHeight * scale)) + startColumn - 4;
-  int maxTilesY = (screenWidth / (tileWidth * scale)) + startRow - 4;
+  int endRow = (screenWidth / (tileWidth * scale)) + startRow;
+  int endCol = (screenHeight / (tileHeight * scale)) + startCol;
 
-  for(int row = startRow; row < mapHeight && row < maxTilesY + startRow; row++) {
-    for(int column = startColumn; column < mapWidth && column < maxTilesX + startColumn; column++) {
-      int tileIndex = row + (column * mapWidth);
-      int gid = tilemap[tileIndex];
+  for(int row = startRow; row < endRow; row++) {
+    for(int column = startCol; column < endCol; column++) {
+      int tilemapIndex = row + (column * mapWidth);
+      Rectangle tileRectangle = getRectAtGid(tilemap[tilemapIndex]);
 
       Rectangle destRect;
       destRect.x = (row * tileWidth) * scale;
@@ -66,10 +66,36 @@ void TileParser::draw(Camera2D& camera, int screenWidth, int screenHeight) {
       destRect.width = tileWidth * scale;
       destRect.height = tileHeight * scale;
 
-      DrawTexturePro(tileset, getRectAtGid(gid), destRect, {0, 0}, 0, WHITE);
+      DrawTexturePro(tileset, tileRectangle, destRect, {0, 0}, 0, WHITE);
     }
   }
 }
+
+// void TileParser::draw(Camera2D& camera, int screenWidth, int screenHeight) {
+//   int scale = 3;
+
+//   int startRow = -(camera.offset.x) / (tileWidth * scale);
+//   int startColumn = -(camera.offset.y) / (tileHeight * scale);
+//   std::cout<<startRow<<" , "<<startColumn<<'\n';
+
+//   int maxTilesX = (screenHeight / (tileHeight * scale)) + startColumn - 4;
+//   int maxTilesY = (screenWidth / (tileWidth * scale)) + startRow - 4;
+
+//   for(int row = startRow; row < mapHeight && row < maxTilesY + startRow; row++) {
+//     for(int column = startColumn; column < mapWidth && column < maxTilesX + startColumn; column++) {
+//       int tileIndex = row + (column * mapWidth);
+//       int gid = tilemap[tileIndex];
+
+//       Rectangle destRect;
+//       destRect.x = (row * tileWidth) * scale;
+//       destRect.y = (column * tileWidth) * scale;
+//       destRect.width = tileWidth * scale;
+//       destRect.height = tileHeight * scale;
+
+//       DrawTexturePro(tileset, getRectAtGid(gid), destRect, {0, 0}, 0, WHITE);
+//     }
+//   }
+// }
 
 Rectangle TileParser::getRectAtGid(int gid) {
   gid--; // Remove one to get index of 0 instead of id of 1
