@@ -48,13 +48,17 @@ std::vector<int> TileParser::parseGidCsv(std::string gidCsv) {
 void TileParser::draw(Camera2D& camera, int screenWidth, int screenHeight) {
   int scale = 3;
 
-  int maxTilesX = (screenHeight / (tileWidth * scale));
-  int maxTilesY = (screenWidth / (tileHeight * scale));
+  int startRow = -(camera.offset.x) / (tileWidth * scale);
+  int startColumn = -(camera.offset.y) / (tileHeight * scale);
+  std::cout<<startRow<<" , "<<startColumn<<'\n';
 
-  for(int row = 0; row < mapHeight && row < maxTilesY; row++) {
-    for(int column = 0; column < mapWidth && column < maxTilesX; column++) {
-      int tilePosition = row + (column * mapWidth);
-      int gid = tilemap[tilePosition];
+  int maxTilesX = (screenHeight / (tileHeight * scale)) + startColumn - 4;
+  int maxTilesY = (screenWidth / (tileWidth * scale)) + startRow - 4;
+
+  for(int row = startRow; row < mapHeight && row < maxTilesY + startRow; row++) {
+    for(int column = startColumn; column < mapWidth && column < maxTilesX + startColumn; column++) {
+      int tileIndex = row + (column * mapWidth);
+      int gid = tilemap[tileIndex];
 
       Rectangle destRect;
       destRect.x = (row * tileWidth) * scale;
