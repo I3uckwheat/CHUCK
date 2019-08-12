@@ -47,13 +47,14 @@ std::vector<int> TileParser::parseGidCsv(std::string gidCsv) {
 
 
 void TileParser::draw(Camera2D& camera, int screenWidth, int screenHeight) {
+  // TODO: bounds checking (no negatives, or drawing outside of map)
   int scale =  3;
 
   int startRow = -camera.offset.x / (tileHeight * scale);
   int startCol = -camera.offset.y / (tileWidth * scale);
 
-  int endRow = (screenWidth / (tileWidth * scale)) + startRow;
-  int endCol = (screenHeight / (tileHeight * scale)) + startCol;
+  int endRow = (screenWidth / (tileWidth * scale)) + startRow + 2;     // Add an extra tile to prevent visually drawing at edges
+  int endCol = (screenHeight / (tileHeight * scale)) + startCol + 2;
 
   for(int row = startRow; row < endRow; row++) {
     for(int column = startCol; column < endCol; column++) {
