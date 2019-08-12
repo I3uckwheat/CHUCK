@@ -71,32 +71,6 @@ void TileParser::draw(Camera2D& camera, int screenWidth, int screenHeight) {
   }
 }
 
-// void TileParser::draw(Camera2D& camera, int screenWidth, int screenHeight) {
-//   int scale = 3;
-
-//   int startRow = -(camera.offset.x) / (tileWidth * scale);
-//   int startColumn = -(camera.offset.y) / (tileHeight * scale);
-//   std::cout<<startRow<<" , "<<startColumn<<'\n';
-
-//   int maxTilesX = (screenHeight / (tileHeight * scale)) + startColumn - 4;
-//   int maxTilesY = (screenWidth / (tileWidth * scale)) + startRow - 4;
-
-//   for(int row = startRow; row < mapHeight && row < maxTilesY + startRow; row++) {
-//     for(int column = startColumn; column < mapWidth && column < maxTilesX + startColumn; column++) {
-//       int tileIndex = row + (column * mapWidth);
-//       int gid = tilemap[tileIndex];
-
-//       Rectangle destRect;
-//       destRect.x = (row * tileWidth) * scale;
-//       destRect.y = (column * tileWidth) * scale;
-//       destRect.width = tileWidth * scale;
-//       destRect.height = tileHeight * scale;
-
-//       DrawTexturePro(tileset, getRectAtGid(gid), destRect, {0, 0}, 0, WHITE);
-//     }
-//   }
-// }
-
 Rectangle TileParser::getRectAtGid(int gid) {
   gid--; // Remove one to get index of 0 instead of id of 1
 
