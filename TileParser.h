@@ -7,7 +7,7 @@
 class TileParser {
 public:
   TileParser();
-  void draw();
+  void draw(Camera2D& camera, int screenHeight, int screenWidth);
 private:
   int mapWidth{0};
   int mapHeight{0};

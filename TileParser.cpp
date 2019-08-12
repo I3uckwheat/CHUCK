@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <algorithm>
 #include "tinyxml2.h"
 #include "raylib.h"
 
@@ -44,22 +45,25 @@ std::vector<int> TileParser::parseGidCsv(std::string gidCsv) {
   return numVector;
 }
 
-void TileParser::draw() {
-  float scale = 1;
-  int row = 0;
-  int column = 0;
-  for(auto i = tilemap.begin(); i != tilemap.end(); ++i) {
-    float destX = tileWidth * column;
-    float destY = tileHeight * row;
+void TileParser::draw(Camera2D& camera, int screenWidth, int screenHeight) {
+  int scale = 3;
 
-    column++;
-    if (column >= mapWidth) {
-      row++;
-      column = 0;
+  int maxTilesX = (screenHeight / (tileWidth * scale));
+  int maxTilesY = (screenWidth / (tileHeight * scale));
+
+  for(int row = 0; row < mapHeight && row < maxTilesY; row++) {
+    for(int column = 0; column < mapWidth && column < maxTilesX; column++) {
+      int tilePosition = row + (column * mapWidth);
+      int gid = tilemap[tilePosition];
+
+      Rectangle destRect;
+      destRect.x = (row * tileWidth) * scale;
+      destRect.y = (column * tileWidth) * scale;
+      destRect.width = tileWidth * scale;
+      destRect.height = tileHeight * scale;
+
+      DrawTexturePro(tileset, getRectAtGid(gid), destRect, {0, 0}, 0, WHITE);
     }
-
-    DrawTexturePro(tileset, getRectAtGid(*i), {destX * scale, destY * scale, tileHeight * scale, tileWidth * scale}, {0, 0}, 0, WHITE);
-
   }
 }
 
