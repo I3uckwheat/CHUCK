@@ -13,21 +13,21 @@ TileParser::TileParser() {
   tmxMap.LoadFile("assets/map1.tmx"); // TODO: make constructor variable
 
   tinyxml2::XMLElement* mapElement = tmxMap.RootElement();
-  mapWidth = mapElement->IntAttribute("width");
-  mapHeight = mapElement->IntAttribute("height");
+  map.mapWidth = mapElement->IntAttribute("width");
+  map.mapHeight = mapElement->IntAttribute("height");
 
   tinyxml2::XMLElement* tilesetElement = mapElement->FirstChildElement("tileset");
-  tileWidth = tilesetElement->IntAttribute("tilewidth");
-  tileHeight = tilesetElement->IntAttribute("tileheight");
-  tileCount = tilesetElement->IntAttribute("tilecount");
-  columns = tilesetElement->IntAttribute("columns");
+  map.tileWidth = tilesetElement->IntAttribute("tilewidth");
+  map.tileHeight = tilesetElement->IntAttribute("tileheight");
+  map.tileCount = tilesetElement->IntAttribute("tilecount");
+  map.columns = tilesetElement->IntAttribute("columns");
 
   std::string tilesetImagePath = "assets/";
   tilesetImagePath += tilesetElement->FirstChildElement("image")->Attribute("source");
-  tileset = LoadTexture(tilesetImagePath.c_str());
+  map.tileset = LoadTexture(tilesetImagePath.c_str());
 
   tinyxml2::XMLElement* dataElement = mapElement->FirstChildElement("layer")->FirstChildElement("data");
-  tilemap = parseGidCsv(dataElement->GetText());
+  map.tilemap = parseGidCsv(dataElement->GetText());
 }
 
 std::vector<int> TileParser::parseGidCsv(std::string gidCsv) {
@@ -50,24 +50,24 @@ void TileParser::draw(Camera2D& camera, int screenWidth, int screenHeight) {
   // TODO: bounds checking (no negatives, or drawing outside of map)
   int scale =  3;
 
-  int startRow = -camera.offset.x / (tileHeight * scale);
-  int startCol = -camera.offset.y / (tileWidth * scale);
+  int startRow = -camera.offset.x / (map.tileHeight * scale);
+  int startCol = -camera.offset.y / (map.tileWidth * scale);
 
-  int endRow = (screenWidth / (tileWidth * scale)) + startRow + 2;     // Add an extra tile to prevent visually drawing at edges
-  int endCol = (screenHeight / (tileHeight * scale)) + startCol + 2;
+  int endRow = (screenWidth / (map.tileWidth * scale)) + startRow + 2;     // Add an extra tile to prevent visually drawing at edges
+  int endCol = (screenHeight / (map.tileHeight * scale)) + startCol + 2;
 
   for(int row = startRow; row < endRow; row++) {
     for(int column = startCol; column < endCol; column++) {
-      int tilemapIndex = row + (column * mapWidth);
-      Rectangle tileRectangle = getRectAtGid(tilemap[tilemapIndex]);
+      int tilemapIndex = row + (column * map.mapWidth);
+      Rectangle tileRectangle = getRectAtGid(map.tilemap[tilemapIndex]);
 
       Rectangle destRect;
-      destRect.x = (row * tileWidth) * scale;
-      destRect.y = (column * tileWidth) * scale;
-      destRect.width = tileWidth * scale;
-      destRect.height = tileHeight * scale;
+      destRect.x = (row * map.tileWidth) * scale;
+      destRect.y = (column * map.tileWidth) * scale;
+      destRect.width = map.tileWidth * scale;
+      destRect.height = map.tileHeight * scale;
 
-      DrawTexturePro(tileset, tileRectangle, destRect, {0, 0}, 0, WHITE);
+      DrawTexturePro(map.tileset, tileRectangle, destRect, {0, 0}, 0, WHITE);
     }
   }
 }
@@ -76,10 +76,10 @@ Rectangle TileParser::getRectAtGid(int gid) {
   gid--; // Remove one to get index of 0 instead of id of 1
 
   Rectangle tile;
-  tile.width = tileWidth;
-  tile.height = tileHeight;
-  tile.x = (gid % columns) * tileWidth; 
-  tile.y = (gid / columns) * tileHeight;
+  tile.width = map.tileWidth;
+  tile.height = map.tileHeight;
+  tile.x = (gid % map.columns) * map.tileWidth; 
+  tile.y = (gid / map.columns) * map.tileHeight;
 
   return tile;
 }

@@ -4,11 +4,7 @@
 #include <vector>
 #include <string>
 
-class TileParser {
-public:
-  TileParser();
-  void draw(Camera2D& camera, int screenHeight, int screenWidth);
-private:
+struct MapData {
   int mapWidth{0};
   int mapHeight{0};
   int tileWidth{0};
@@ -18,7 +14,14 @@ private:
 
   Texture2D tileset;
   std::vector<int> tilemap;
+};
 
-  std::vector<int> parseGidCsv(std::string gidCsv);
+class TileParser {
+public:
+  TileParser();
+  void draw(Camera2D& camera, int screenHeight, int screenWidth);
+private:
+  MapData map;
   Rectangle getRectAtGid(int gid);
+  std::vector<int> parseGidCsv(std::string gidCsv);
 };
