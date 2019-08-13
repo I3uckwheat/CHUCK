@@ -51,9 +51,11 @@ void TileParser::draw(Camera2D& camera, int screenWidth, int screenHeight) {
   // TODO: bounds checking (no negatives, or drawing outside of map)
   int scale =  2;
 
+  // Needs to be clamped to prevent drawing tiles from random memory
   int startRow = helpers::clamp(-camera.offset.x / (map.tileHeight * scale), 0.0f, (float)map.mapHeight);
   int startCol = helpers::clamp(-camera.offset.y / (map.tileWidth * scale), 0.0f, (float)map.mapHeight);
 
+  // Needs to be clamped to prevent drawing tiles from random memory
   int endRow = helpers::clamp((screenWidth / (map.tileWidth * scale)) + startRow + 2, 0, map.mapWidth);     // Add an extra tile to prevent visually drawing at edges
   int endCol = helpers::clamp((screenHeight / (map.tileHeight * scale)) + startCol + 2, 0, map.mapHeight);
 
