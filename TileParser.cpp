@@ -5,6 +5,7 @@
 #include <algorithm>
 #include "tinyxml2.h"
 #include "raylib.h"
+#include "helpers.h"
 
 #include <iostream>
 
@@ -48,13 +49,13 @@ std::vector<int> TileParser::parseGidCsv(std::string gidCsv) {
 
 void TileParser::draw(Camera2D& camera, int screenWidth, int screenHeight) {
   // TODO: bounds checking (no negatives, or drawing outside of map)
-  int scale =  3;
+  int scale =  2;
 
-  int startRow = -camera.offset.x / (map.tileHeight * scale);
-  int startCol = -camera.offset.y / (map.tileWidth * scale);
+  int startRow = helpers::clamp(-camera.offset.x / (map.tileHeight * scale), 0.0f, (float)map.mapHeight);
+  int startCol = helpers::clamp(-camera.offset.y / (map.tileWidth * scale), 0.0f, (float)map.mapHeight);
 
-  int endRow = (screenWidth / (map.tileWidth * scale)) + startRow + 2;     // Add an extra tile to prevent visually drawing at edges
-  int endCol = (screenHeight / (map.tileHeight * scale)) + startCol + 2;
+  int endRow = helpers::clamp((screenWidth / (map.tileWidth * scale)) + startRow + 2, 0, map.mapWidth);     // Add an extra tile to prevent visually drawing at edges
+  int endCol = helpers::clamp((screenHeight / (map.tileHeight * scale)) + startCol + 2, 0, map.mapHeight);
 
   for(int row = startRow; row < endRow; row++) {
     for(int column = startCol; column < endCol; column++) {
