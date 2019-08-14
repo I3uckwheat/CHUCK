@@ -11,7 +11,7 @@ int main(void) {
     const int screenHeight = 450;
     InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
 
-    TileParser map1;
+    TileParser map1("assets", "map1.tmx");
 
     Vector2 player{200, 200};
 
@@ -59,7 +59,7 @@ int main(void) {
 
             ClearBackground(RAYWHITE);
             BeginMode2D(camera);
-              map1.draw(camera, screenWidth, screenHeight);
+              map1.draw({camera.offset.x, camera.offset.y}, screenWidth, screenHeight);
             DrawRectangle(player.x, player.y, 40, 40, RED);
             EndMode2D();
 

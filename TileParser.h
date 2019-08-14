@@ -18,10 +18,10 @@ struct MapData {
 
 class TileParser {
 public:
-  TileParser();
-  void draw(Camera2D& camera, int screenHeight, int screenWidth);
+  TileParser(std::string assetDir, std::string mapName);
+  void draw(const Vector2& offset, const int& screenHeight, const int& screenWidth);
 private:
   MapData map;
   Rectangle getRectAtGid(int gid);
-  std::vector<int> parseGidCsv(std::string gidCsv);
+  std::vector<int> parseGidCsv(const std::string& gidCsv);
 };

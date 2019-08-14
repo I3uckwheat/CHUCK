@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <sstream>
 #include <algorithm>
 #include "tinyxml2.h"
 #include "raylib.h"
@@ -9,9 +10,12 @@
 
 #include <iostream>
 
-TileParser::TileParser() {
+TileParser::TileParser(std::string assetDir, std::string mapName) {
+  std::stringstream mapPath;
+  mapPath << assetDir << "/" << mapName;
+
   tinyxml2::XMLDocument tmxMap;
-  tmxMap.LoadFile("assets/map1.tmx"); // TODO: make constructor variable
+  tmxMap.LoadFile(mapPath.str().c_str());
 
   tinyxml2::XMLElement* mapElement = tmxMap.RootElement();
   map.mapWidth = mapElement->IntAttribute("width");
@@ -23,15 +27,15 @@ TileParser::TileParser() {
   map.tileCount = tilesetElement->IntAttribute("tilecount");
   map.columns = tilesetElement->IntAttribute("columns");
 
-  std::string tilesetImagePath = "assets/";
-  tilesetImagePath += tilesetElement->FirstChildElement("image")->Attribute("source");
-  map.tileset = LoadTexture(tilesetImagePath.c_str());
+  std::stringstream tilesetImagePath;
+  tilesetImagePath << assetDir << "/" << tilesetElement->FirstChildElement("image")->Attribute("source");
+  map.tileset = LoadTexture(tilesetImagePath.str().c_str());
 
   tinyxml2::XMLElement* dataElement = mapElement->FirstChildElement("layer")->FirstChildElement("data");
   map.tilemap = parseGidCsv(dataElement->GetText());
 }
 
-std::vector<int> TileParser::parseGidCsv(std::string gidCsv) {
+std::vector<int> TileParser::parseGidCsv(const std::string& gidCsv) {
   std::vector<int> numVector;
 
   // str.find works with positions, not indexes
@@ -47,13 +51,12 @@ std::vector<int> TileParser::parseGidCsv(std::string gidCsv) {
 }
 
 
-void TileParser::draw(Camera2D& camera, int screenWidth, int screenHeight) {
-  // TODO: bounds checking (no negatives, or drawing outside of map)
+void TileParser::draw(const Vector2& offset, const int& screenWidth, const int& screenHeight) {
   int scale =  2;
 
   // Needs to be clamped to prevent drawing tiles from random memory
-  int startRow = helpers::clamp(-camera.offset.x / (map.tileHeight * scale), 0.0f, (float)map.mapHeight);
-  int startCol = helpers::clamp(-camera.offset.y / (map.tileWidth * scale), 0.0f, (float)map.mapHeight);
+  int startRow = helpers::clamp(-offset.x / (map.tileHeight * scale), 0.0f, (float)map.mapHeight);
+  int startCol = helpers::clamp(-offset.y / (map.tileWidth * scale), 0.0f, (float)map.mapHeight);
 
   // Needs to be clamped to prevent drawing tiles from random memory
   int endRow = helpers::clamp((screenWidth / (map.tileWidth * scale)) + startRow + 2, 0, map.mapWidth);     // Add an extra tile to prevent visually drawing at edges
