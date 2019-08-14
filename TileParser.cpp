@@ -27,12 +27,16 @@ TileParser::TileParser(std::string assetDir, std::string mapName) {
   map.tileCount = tilesetElement->IntAttribute("tilecount");
   map.columns = tilesetElement->IntAttribute("columns");
 
+  // TODO: support non embedded tilesets
   std::stringstream tilesetImagePath;
   tilesetImagePath << assetDir << "/" << tilesetElement->FirstChildElement("image")->Attribute("source");
   map.tileset = LoadTexture(tilesetImagePath.str().c_str());
 
-  tinyxml2::XMLElement* dataElement = mapElement->FirstChildElement("layer")->FirstChildElement("data");
-  map.tilemap = parseGidCsv(dataElement->GetText());
+  // TODO: convert to vector with all maps
+  // tinyxml2::XMLElement* dataElement = mapElement->FirstChildElement("layer")->FirstChildElement("data");
+  // map.tilemaps.push_back(parseGidCsv(dataElement->GetText()));
+
+  map.tilemaps = getLayers(mapElement);
 }
 
 std::vector<int> TileParser::parseGidCsv(const std::string& gidCsv) {
@@ -50,8 +54,24 @@ std::vector<int> TileParser::parseGidCsv(const std::string& gidCsv) {
   return numVector;
 }
 
+std::vector<std::vector<int>> TileParser::getLayers(tinyxml2::XMLElement* mapElement) {
+  std::vector<std::vector<int>> tilemaps;
+  tinyxml2::XMLElement* layer = mapElement->FirstChildElement("layer");
+  while(layer != NULL) {
+    tilemaps.push_back(parseGidCsv(layer->FirstChildElement("data")->GetText()));
+    layer = layer->NextSiblingElement();
+  }
+
+  return tilemaps;
+}
 
 void TileParser::draw(const Vector2& offset, const int& screenWidth, const int& screenHeight) {
+  for(std::vector<int> tilemap : map.tilemaps) {
+    drawLayer(tilemap, offset, screenWidth, screenHeight);
+  }
+}
+
+void TileParser::drawLayer(const std::vector<int> tileMap, const Vector2& offset, const int& screenWidth, const int& screenHeight) {
   int scale =  2;
 
   // Needs to be clamped to prevent drawing tiles from random memory
@@ -65,7 +85,7 @@ void TileParser::draw(const Vector2& offset, const int& screenWidth, const int& 
   for(int row = startRow; row < endRow; row++) {
     for(int column = startCol; column < endCol; column++) {
       int tilemapIndex = row + (column * map.mapWidth);
-      Rectangle tileRectangle = getRectAtGid(map.tilemap[tilemapIndex]);
+      Rectangle tileRectangle = getRectAtGid(tileMap[tilemapIndex]);
 
       Rectangle destRect;
       destRect.x = (row * map.tileWidth) * scale;

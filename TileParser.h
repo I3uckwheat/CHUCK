@@ -3,6 +3,7 @@
 #include "raylib.h"
 #include <vector>
 #include <string>
+#include <tinyxml2.h>
 
 struct MapData {
   int mapWidth{0};
@@ -13,7 +14,7 @@ struct MapData {
   int columns{0};
 
   Texture2D tileset;
-  std::vector<int> tilemap;
+  std::vector<std::vector<int>> tilemaps;
 };
 
 class TileParser {
@@ -24,4 +25,6 @@ private:
   MapData map;
   Rectangle getRectAtGid(int gid);
   std::vector<int> parseGidCsv(const std::string& gidCsv);
+  void drawLayer(const std::vector<int> tileMap, const Vector2& offset, const int& screenWidth, const int& screenHeight);
+  std::vector<std::vector<int>> getLayers(tinyxml2::XMLElement* mapElement);
 };
