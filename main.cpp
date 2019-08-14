@@ -2,7 +2,7 @@
 #include <vector>
 #include "tinyxml2.h"
 #include "raylib.h"
-#include "TileParser.h"
+#include "TiledParser.h"
 
 int main(void) {
   // Initialization
