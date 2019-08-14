@@ -4,5 +4,5 @@
 
 2. Run
 ~~~
-g++ -g main.cpp TileParser.cpp lib/tinyxml2/tinyxml2.o -Ilib/tinyxml2 -lraylib
+g++ -g main.cpp TiledParser/TiledParser.cpp lib/tinyxml2/tinyxml2.o -Ilib/tinyxml2 -ITiledParser -lraylib
 ~~~
