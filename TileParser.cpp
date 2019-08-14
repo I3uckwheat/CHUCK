@@ -32,10 +32,6 @@ TileParser::TileParser(std::string assetDir, std::string mapName) {
   tilesetImagePath << assetDir << "/" << tilesetElement->FirstChildElement("image")->Attribute("source");
   map.tileset = LoadTexture(tilesetImagePath.str().c_str());
 
-  // TODO: convert to vector with all maps
-  // tinyxml2::XMLElement* dataElement = mapElement->FirstChildElement("layer")->FirstChildElement("data");
-  // map.tilemaps.push_back(parseGidCsv(dataElement->GetText()));
-
   map.tilemaps = getLayers(mapElement);
 }
 
