@@ -53,7 +53,14 @@ std::vector<int> TileParser::parseGidCsv(const std::string& gidCsv) {
 std::vector<std::vector<int>> TileParser::getLayers(tinyxml2::XMLElement* mapElement) {
   std::vector<std::vector<int>> tilemaps;
   tinyxml2::XMLElement* layer = mapElement->FirstChildElement("layer");
-  while(layer != NULL) {
+
+  // TODO: parse object groups seperately
+  // TODO: setup base class for objectgroup items
+  // TODO: store in a vector of objects unique_pointer(?)
+  // TODO: have a colision check on each object.
+  // https://stackoverflow.com/questions/6274136/objects-of-different-classes-in-a-single-vector
+
+  while(layer != NULL && layer->Name() != (std::string)"objectgroup") {
     tilemaps.push_back(parseGidCsv(layer->FirstChildElement("data")->GetText()));
     layer = layer->NextSiblingElement();
   }
