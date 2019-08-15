@@ -5,7 +5,8 @@
 #include <string>
 #include <tinyxml2.h>
 
-struct MapInfo {
+class TileParser {
+public:
   int mapWidth{0};
   int mapHeight{0};
   int tileWidth{0};
@@ -15,13 +16,8 @@ struct MapInfo {
 
   Texture2D tileset;
   std::vector<std::vector<int>> tilemaps;
-};
-
-class TileParser {
-public:
+  TileParser();
   TileParser(std::string assetDir, std::string mapName);
-  MapInfo map;
-  std::vector<std::vector<int>> getTilemaps();
 private:
   std::vector<int> parseGidCsv(const std::string& gidCsv);
   std::vector<std::vector<int>> getLayers(tinyxml2::XMLElement* mapElement);
