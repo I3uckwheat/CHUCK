@@ -2,7 +2,7 @@
 #include <vector>
 #include "tinyxml2.h"
 #include "raylib.h"
-#include "TiledParser.h"
+#include "TiledMap.h"
 
 int main(void) {
   // Initialization
@@ -11,7 +11,7 @@ int main(void) {
     const int screenHeight = 450;
     InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
 
-    TileParser map1("assets", "map1.tmx");
+    TiledMap map1("assets", "map1.tmx");
 
     Vector2 player{200, 200};
 
@@ -20,7 +20,6 @@ int main(void) {
     camera.offset = (Vector2){ 0, 0 };
     camera.rotation = 0.0f;
     camera.zoom = 1.0f;
-
 
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
