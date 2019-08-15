@@ -58,7 +58,7 @@ int main(void) {
 
             ClearBackground(RAYWHITE);
             BeginMode2D(camera);
-              map1.draw({camera.offset.x, camera.offset.y}, screenWidth, screenHeight);
+              /* map1.draw({camera.offset.x, camera.offset.y}, screenWidth, screenHeight); */
             DrawRectangle(player.x, player.y, 40, 40, RED);
             EndMode2D();
 
