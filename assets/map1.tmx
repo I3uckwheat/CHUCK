@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="25" height="25" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="25">
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="25" height="25" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="31">
  <tileset firstgid="1" name="forgotten-dungeon" tilewidth="16" tileheight="16" tilecount="100" columns="10">
   <image source="ForgottenDungeon.png" width="160" height="160"/>
  </tileset>
@@ -36,9 +36,9 @@
   <data encoding="csv">
 61,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,64,
 12,14,0,14,0,0,55,0,0,14,0,0,12,12,0,0,0,0,0,0,0,0,0,0,12,
-12,0,0,0,0,0,0,0,69,0,0,0,12,12,0,0,70,70,70,70,0,0,0,0,12,
-12,0,69,69,0,0,0,0,0,0,0,0,12,12,0,0,7,16,16,7,16,59,0,0,12,
-12,0,0,0,0,0,0,0,0,0,0,0,12,12,0,7,16,16,16,7,7,0,0,0,12,
+12,0,0,0,12,0,0,0,69,0,0,0,12,12,0,0,70,70,70,70,0,0,0,0,12,
+12,0,69,12,12,12,0,0,0,0,0,0,12,12,0,0,7,16,16,7,16,59,0,0,12,
+12,0,0,0,12,0,0,0,0,0,0,0,12,12,0,7,16,16,16,7,7,0,0,0,12,
 12,0,69,69,69,69,69,0,0,0,0,0,12,12,0,7,16,16,16,16,7,7,0,0,12,
 12,0,69,0,0,0,0,0,0,0,0,0,12,12,0,16,7,16,16,16,16,7,0,0,12,
 12,69,0,0,0,16,42,42,42,42,42,42,12,12,0,16,7,16,16,16,7,0,0,0,12,
@@ -78,7 +78,7 @@
    <polygon points="0,0 -20,0.75 -46.75,30.75 0.75,32.25"/>
   </object>
   <object id="21" x="273.5" y="240.5" width="62.5" height="111.5"/>
-  <object id="24" x="234" y="40" width="119.333" height="121.333">
+  <object id="28" x="240" y="48" width="112" height="112">
    <ellipse/>
   </object>
  </objectgroup>

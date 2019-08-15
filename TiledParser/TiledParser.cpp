@@ -68,47 +68,6 @@ std::vector<std::vector<int>> TileParser::getLayers(tinyxml2::XMLElement* mapEle
   return tilemaps;
 }
 
-void TileParser::draw(const Vector2& offset, const int& screenWidth, const int& screenHeight) {
-  for(std::vector<int> tilemap : map.tilemaps) {
-    drawLayer(tilemap, offset, screenWidth, screenHeight);
-  }
-}
-
-void TileParser::drawLayer(const std::vector<int> tileMap, const Vector2& offset, const int& screenWidth, const int& screenHeight) {
-  int scale =  2;
-
-  // Needs to be clamped to prevent drawing tiles from random memory
-  int startRow = helpers::clamp(-offset.x / (map.tileHeight * scale), 0.0f, (float)map.mapHeight);
-  int startCol = helpers::clamp(-offset.y / (map.tileWidth * scale), 0.0f, (float)map.mapHeight);
-
-  // Needs to be clamped to prevent drawing tiles from random memory
-  int endRow = helpers::clamp((screenWidth / (map.tileWidth * scale)) + startRow + 2, 0, map.mapWidth);     // Add an extra tile to prevent visually drawing at edges
-  int endCol = helpers::clamp((screenHeight / (map.tileHeight * scale)) + startCol + 2, 0, map.mapHeight);
-
-  for(int row = startRow; row < endRow; row++) {
-    for(int column = startCol; column < endCol; column++) {
-      int tilemapIndex = row + (column * map.mapWidth);
-      Rectangle tileRectangle = getRectAtGid(tileMap[tilemapIndex]);
-
-      Rectangle destRect;
-      destRect.x = (row * map.tileWidth) * scale;
-      destRect.y = (column * map.tileWidth) * scale;
-      destRect.width = map.tileWidth * scale;
-      destRect.height = map.tileHeight * scale;
-
-      DrawTexturePro(map.tileset, tileRectangle, destRect, {0, 0}, 0, WHITE);
-    }
-  }
-}
-
-Rectangle TileParser::getRectAtGid(int gid) {
-  gid--; // Remove one to get index of 0 instead of id of 1
-
-  Rectangle tile;
-  tile.width = map.tileWidth;
-  tile.height = map.tileHeight;
-  tile.x = (gid % map.columns) * map.tileWidth; 
-  tile.y = (gid / map.columns) * map.tileHeight;
-
-  return tile;
+std::vector<std::vector<int>> TileParser::getTilemaps() {
+  return map.tilemaps;
 }
