@@ -5,9 +5,12 @@
 #include <vector>
 #include <string>
 
-TiledMap::TiledMap(std::string assetDir, std::string mapName) {
-  mapData = TileParser(assetDir, mapName);
-}
+TiledMap::TiledMap(std::string assetDir, std::string mapName) { mapData = TileParser(assetDir, mapName, 3); }
+
+const std::vector<unsigned>& TiledMap::getTilemapLayer(int layer) { return mapData.tilemaps[layer]; };
+const std::vector<std::vector<unsigned>>& TiledMap::getTilemapLayers(){ return mapData.tilemaps; };
+const std::vector<Rectangle>& TiledMap::getObjectGroup(std::string name){ return mapData.objectGroups[name]; };
+const std::unordered_map<std::string, std::vector<Rectangle>>& TiledMap::getObjectGroups() { return mapData.objectGroups; }
 
 void TiledMap::draw(const Vector2& offset, const int& screenWidth, const int& screenHeight) {
   for(std::vector<unsigned> tilemap : mapData.tilemaps) {
