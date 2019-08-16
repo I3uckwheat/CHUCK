@@ -10,48 +10,50 @@
 
 #include <iostream>
 
+TileParser::TileParser() {}
+
 TileParser::TileParser(std::string assetDir, std::string mapName) {
   std::stringstream mapPath;
-  mapPath << assetDir << "/" << mapName;
+  mapPath << "../" << assetDir << "/" << mapName;
 
   tinyxml2::XMLDocument tmxMap;
   tmxMap.LoadFile(mapPath.str().c_str());
 
   tinyxml2::XMLElement* mapElement = tmxMap.RootElement();
-  map.mapWidth = mapElement->IntAttribute("width");
-  map.mapHeight = mapElement->IntAttribute("height");
+  mapWidth = mapElement->IntAttribute("width");
+  mapHeight = mapElement->IntAttribute("height");
 
   tinyxml2::XMLElement* tilesetElement = mapElement->FirstChildElement("tileset");
-  map.tileWidth = tilesetElement->IntAttribute("tilewidth");
-  map.tileHeight = tilesetElement->IntAttribute("tileheight");
-  map.tileCount = tilesetElement->IntAttribute("tilecount");
-  map.columns = tilesetElement->IntAttribute("columns");
+  tileWidth = tilesetElement->IntAttribute("tilewidth");
+  tileHeight = tilesetElement->IntAttribute("tileheight");
+  tileCount = tilesetElement->IntAttribute("tilecount");
+  columns = tilesetElement->IntAttribute("columns");
 
   // TODO: support non embedded tilesets
   std::stringstream tilesetImagePath;
-  tilesetImagePath << assetDir << "/" << tilesetElement->FirstChildElement("image")->Attribute("source");
-  map.tileset = LoadTexture(tilesetImagePath.str().c_str());
+  tilesetImagePath << "../" << assetDir << "/" << tilesetElement->FirstChildElement("image")->Attribute("source");
+  tileset = LoadTexture(tilesetImagePath.str().c_str());
 
-  map.tilemaps = getLayers(mapElement);
+  tilemaps = getLayers(mapElement);
 }
 
-std::vector<int> TileParser::parseGidCsv(const std::string& gidCsv) {
-  std::vector<int> numVector;
+std::vector<unsigned> TileParser::parseGidCsv(const std::string& gidCsv) {
+  std::vector<unsigned> numVector;
 
   // str.find works with positions, not indexes
   std::size_t currentStringPos = 1;
 
   while(currentStringPos != 0) {
     std::size_t delimiterPos = gidCsv.find(',', currentStringPos);
-    numVector.push_back(std::stoi(gidCsv.substr(currentStringPos, delimiterPos)));
+    numVector.push_back(std::stoul(gidCsv.substr(currentStringPos, delimiterPos)));
     currentStringPos = delimiterPos + 1;
   }
 
   return numVector;
 }
 
-std::vector<std::vector<int>> TileParser::getLayers(tinyxml2::XMLElement* mapElement) {
-  std::vector<std::vector<int>> tilemaps;
+std::vector<std::vector<unsigned>> TileParser::getLayers(tinyxml2::XMLElement* mapElement) {
+  std::vector<std::vector<unsigned>> tilemaps;
   tinyxml2::XMLElement* layer = mapElement->FirstChildElement("layer");
 
   // TODO: parse object groups seperately
@@ -66,8 +68,4 @@ std::vector<std::vector<int>> TileParser::getLayers(tinyxml2::XMLElement* mapEle
   }
 
   return tilemaps;
-}
-
-std::vector<std::vector<int>> TileParser::getTilemaps() {
-  return map.tilemaps;
 }

@@ -3,9 +3,10 @@
 #include "raylib.h"
 #include <vector>
 #include <string>
-#include <tinyxml2.h>
+#include "tinyxml2.h"
 
-struct MapInfo {
+class TileParser {
+public:
   int mapWidth{0};
   int mapHeight{0};
   int tileWidth{0};
@@ -14,15 +15,10 @@ struct MapInfo {
   int columns{0};
 
   Texture2D tileset;
-  std::vector<std::vector<int>> tilemaps;
-};
-
-class TileParser {
-public:
+  std::vector<std::vector<unsigned>> tilemaps;
+  TileParser();
   TileParser(std::string assetDir, std::string mapName);
-  MapInfo map;
-  std::vector<std::vector<int>> getTilemaps();
 private:
-  std::vector<int> parseGidCsv(const std::string& gidCsv);
-  std::vector<std::vector<int>> getLayers(tinyxml2::XMLElement* mapElement);
+  std::vector<unsigned> parseGidCsv(const std::string& gidCsv);
+  std::vector<std::vector<unsigned>> getLayers(tinyxml2::XMLElement* mapElement);
 };
