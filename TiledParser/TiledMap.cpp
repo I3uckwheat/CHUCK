@@ -16,7 +16,7 @@ void TiledMap::draw(const Vector2& offset, const int& screenWidth, const int& sc
 }
 
 void TiledMap::drawLayer(const std::vector<unsigned> tileMap, const Vector2& offset, const int& screenWidth, const int& screenHeight) {
-  int scale =  2;
+  int scale =  3;
 
   const unsigned FLIPPED_HORIZONTALLY_FLAG = 0x80000000;
   const unsigned FLIPPED_VERTICALLY_FLAG   = 0x40000000;

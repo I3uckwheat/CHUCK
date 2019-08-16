@@ -11,7 +11,7 @@ int main(void) {
     const int screenHeight = 450;
     InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
 
-    TiledMap map1("assets", "map1.tmx");
+    TiledMap map1("assets", "map2.tmx");
 
     Vector2 player{200, 200};
 
