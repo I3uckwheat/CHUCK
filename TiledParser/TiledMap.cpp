@@ -10,12 +10,12 @@ TiledMap::TiledMap(std::string assetDir, std::string mapName) {
 }
 
 void TiledMap::draw(const Vector2& offset, const int& screenWidth, const int& screenHeight) {
-  for(std::vector<int> tilemap : mapData.tilemaps) {
+  for(std::vector<unsigned> tilemap : mapData.tilemaps) {
     drawLayer(tilemap, offset, screenWidth, screenHeight);
   }
 }
 
-void TiledMap::drawLayer(const std::vector<int> tileMap, const Vector2& offset, const int& screenWidth, const int& screenHeight) {
+void TiledMap::drawLayer(const std::vector<unsigned> tileMap, const Vector2& offset, const int& screenWidth, const int& screenHeight) {
   int scale =  2;
 
   // Needs to be clamped to prevent drawing tiles from random memory

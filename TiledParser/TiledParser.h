@@ -15,10 +15,10 @@ public:
   int columns{0};
 
   Texture2D tileset;
-  std::vector<std::vector<int>> tilemaps;
+  std::vector<std::vector<unsigned>> tilemaps;
   TileParser();
   TileParser(std::string assetDir, std::string mapName);
 private:
-  std::vector<int> parseGidCsv(const std::string& gidCsv);
-  std::vector<std::vector<int>> getLayers(tinyxml2::XMLElement* mapElement);
+  std::vector<unsigned> parseGidCsv(const std::string& gidCsv);
+  std::vector<std::vector<unsigned>> getLayers(tinyxml2::XMLElement* mapElement);
 };

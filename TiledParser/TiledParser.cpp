@@ -37,23 +37,23 @@ TileParser::TileParser(std::string assetDir, std::string mapName) {
   tilemaps = getLayers(mapElement);
 }
 
-std::vector<int> TileParser::parseGidCsv(const std::string& gidCsv) {
-  std::vector<int> numVector;
+std::vector<unsigned> TileParser::parseGidCsv(const std::string& gidCsv) {
+  std::vector<unsigned> numVector;
 
   // str.find works with positions, not indexes
   std::size_t currentStringPos = 1;
 
   while(currentStringPos != 0) {
     std::size_t delimiterPos = gidCsv.find(',', currentStringPos);
-    numVector.push_back(std::stoi(gidCsv.substr(currentStringPos, delimiterPos)));
+    numVector.push_back(std::stoul(gidCsv.substr(currentStringPos, delimiterPos)));
     currentStringPos = delimiterPos + 1;
   }
 
   return numVector;
 }
 
-std::vector<std::vector<int>> TileParser::getLayers(tinyxml2::XMLElement* mapElement) {
-  std::vector<std::vector<int>> tilemaps;
+std::vector<std::vector<unsigned>> TileParser::getLayers(tinyxml2::XMLElement* mapElement) {
+  std::vector<std::vector<unsigned>> tilemaps;
   tinyxml2::XMLElement* layer = mapElement->FirstChildElement("layer");
 
   // TODO: parse object groups seperately

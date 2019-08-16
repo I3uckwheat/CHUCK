@@ -11,6 +11,6 @@ public:
   void draw(const Vector2& offset, const int& screenHeight, const int& screenWidth);
 private:
   TileParser mapData;
-  void drawLayer(const std::vector<int> tileMap, const Vector2& offset, const int& screenWidth, const int& screenHeight);
+  void drawLayer(const std::vector<unsigned> tileMap, const Vector2& offset, const int& screenWidth, const int& screenHeight);
   Rectangle getRectAtGid(int gid);
 };
