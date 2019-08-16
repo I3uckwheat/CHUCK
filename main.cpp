@@ -62,6 +62,9 @@ int main(void) {
               for(Rectangle rectangle : map1.getObjectGroup("collisions")) {
                 // DrawRectangleRec(rectangle, GREEN);
               }
+              for(Rectangle rectangle: map1.getObjectGroup("triggers")) {
+                // DrawRectangleRec(rectangle, BLUE);
+              }
             DrawRectangle(player.x, player.y, 40, 40, RED);
             EndMode2D();
 
