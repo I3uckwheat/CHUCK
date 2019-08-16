@@ -20,5 +20,5 @@ public:
   TileParser(std::string assetDir, std::string mapName);
 private:
   std::vector<unsigned> parseGidCsv(const std::string& gidCsv);
-  std::vector<std::vector<unsigned>> getLayers(tinyxml2::XMLElement* mapElement);
+  std::vector<std::vector<unsigned>> getTileLayers(tinyxml2::XMLElement* mapElement);
 };
