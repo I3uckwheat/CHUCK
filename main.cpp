@@ -3,6 +3,7 @@
 #include "tinyxml2.h"
 #include "raylib.h"
 #include "TiledMap.h"
+#include "SceneDirector.h"
 
 int main(void) {
   // Initialization
@@ -10,64 +11,22 @@ int main(void) {
     const int screenWidth = 800;
     const int screenHeight = 450;
     InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
-
-    TiledMap map1("assets", "map2.tmx");
-
-    Vector2 player{200, 200};
-
-    Camera2D camera = { 0 };
-    camera.target = (Vector2){ player.x + 20, player.y + 20 };
-    camera.offset = (Vector2){ 0, 0 };
-    camera.rotation = 0.0f;
-    camera.zoom = 1.0f;
-
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
+
+    SceneDirector director;
     //--------------------------------------------------------------------------------------
 
     // Main game loop
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {
-        // Update
-        //----------------------------------------------------------------------------------
-        if(IsKeyDown(KEY_D)) {
-          player.x += 3;
-          camera.offset.x -= 3;
-        }
-
-        if(IsKeyDown(KEY_A)) {
-          player.x -= 3;
-          camera.offset.x += 3;
-        }
-
-        if(IsKeyDown(KEY_S)) {
-          player.y += 3;
-          camera.offset.y -= 3;
-        }
-
-        if(IsKeyDown(KEY_W)) {
-          player.y -= 3;
-          camera.offset.y += 3;
-        }
-
-        camera.target = player;
-        //----------------------------------------------------------------------------------
+      director.update();
 
         // Draw
         //----------------------------------------------------------------------------------
         BeginDrawing();
 
             ClearBackground(RAYWHITE);
-            BeginMode2D(camera);
-              map1.draw({camera.offset.x, camera.offset.y}, screenWidth, screenHeight);
-              for(Rectangle rectangle : map1.getObjectGroup("collisions").rectangle) {
-                // DrawRectangleRec(rectangle, GREEN);
-              }
-              for(Rectangle rectangle: map1.getObjectGroup("triggers").rectangle) {
-                // DrawRectangleRec(rectangle, BLUE);
-              }
-            DrawRectangle(player.x, player.y, 40, 40, RED);
-            EndMode2D();
-
+            director.draw();
 
         EndDrawing();
         //----------------------------------------------------------------------------------

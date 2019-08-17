@@ -32,16 +32,33 @@ endif()
 include_directories(
   ./lib/tinyxml2/
   ./TiledParser/
+  ./Scenes/
   )
+
+add_library(SceneDirector
+  STATIC
+    ./Scenes/SceneDirector.cpp
+  )
+set_target_properties(SceneDirector
+  PROPERTIES
+    CXX_STANDARD 17
+  )
+
+add_library(Scenes
+  STATIC
+    ./Scenes/Scenes.cpp
+  )
+set_target_properties(Scenes
+  PROPERTIES
+    CXX_STANDARD 17
+  )
+
+target_link_libraries(SceneDirector Scenes)
 
 add_library(TiledAdapter
   STATIC
-    ./TiledParser/TiledMap.h
     ./TiledParser/TiledMap.cpp
-    ./TiledParser/TiledParser.h
     ./TiledParser/TiledParser.cpp
-    ./TiledParser/helpers.h
-    ./lib/tinyxml2/tinyxml2.h
     ./lib/tinyxml2/tinyxml2.cpp
   )
 set_target_properties(TiledAdapter
@@ -49,7 +66,7 @@ set_target_properties(TiledAdapter
     CXX_STANDARD 17
   )
 
-target_link_libraries(TiledAdapter raylib)
+target_link_libraries(SceneDirector TiledAdapter)
 
 add_executable(${PROJECT_NAME} main.cpp)
 set_target_properties(${PROJECT_NAME}
@@ -57,6 +74,6 @@ set_target_properties(${PROJECT_NAME}
     CXX_STANDARD 17
   )
 #set(raylib_VERBOSE )
-target_link_libraries(${PROJECT_NAME} raylib TiledAdapter)
+target_link_libraries(${PROJECT_NAME} raylib TiledAdapter SceneDirector Scenes)
 
 # That's it! You should have an example executable that you can run. Have fun!

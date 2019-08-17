@@ -7,8 +7,12 @@
 
 class TiledMap {
 public:
+  TiledMap();
   TiledMap(std::string assetDir, std::string mapName);
+  void load(std::string assetDir, std::string mapName);
   void draw(const Vector2& offset, const int& screenHeight, const int& screenWidth);
+
+  void unload();
 
   // Getters
   const std::vector<unsigned>& getTilemapLayer(int layer);

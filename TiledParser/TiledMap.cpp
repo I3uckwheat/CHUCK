@@ -5,7 +5,17 @@
 #include <vector>
 #include <string>
 
+static const unsigned FLIPPED_HORIZONTALLY_FLAG = 0x80000000;
+static const unsigned FLIPPED_VERTICALLY_FLAG   = 0x40000000;
+static const unsigned FLIPPED_DIAGONALLY_FLAG   = 0x20000000;
+
+TiledMap::TiledMap() {}
 TiledMap::TiledMap(std::string assetDir, std::string mapName) { mapData = TileParser(assetDir, mapName, 3); }
+void TiledMap::load(std::string assetDir, std::string mapName) { mapData = TileParser(assetDir, mapName, 3); }
+
+void TiledMap::unload() {
+  UnloadTexture(mapData.tileset);
+}
 
 const std::vector<unsigned>& TiledMap::getTilemapLayer(int layer) { return mapData.tilemaps[layer]; };
 const std::vector<std::vector<unsigned>>& TiledMap::getTilemapLayers(){ return mapData.tilemaps; };
@@ -20,10 +30,6 @@ void TiledMap::draw(const Vector2& offset, const int& screenWidth, const int& sc
 
 void TiledMap::drawLayer(const std::vector<unsigned> tileMap, const Vector2& offset, const int& screenWidth, const int& screenHeight) {
   int scale =  3;
-
-  const unsigned FLIPPED_HORIZONTALLY_FLAG = 0x80000000;
-  const unsigned FLIPPED_VERTICALLY_FLAG   = 0x40000000;
-  const unsigned FLIPPED_DIAGONALLY_FLAG   = 0x20000000;
 
   // Needs to be clamped to prevent drawing tiles from random memory
   int startRow = helpers::clamp(-offset.x / (mapData.tileHeight * scale), 0.0f, (float)mapData.mapHeight);
