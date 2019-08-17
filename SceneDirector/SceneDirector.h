@@ -4,6 +4,8 @@
 #include <unordered_map>
 #include <memory>
 
+class Scene;
+
 enum class SceneName {
   START_SCENE,
   GAME_SCENE,

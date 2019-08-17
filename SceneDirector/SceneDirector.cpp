@@ -1,9 +1,9 @@
 #include "SceneDirector.h"
 #include <memory>
 
-#include "StartScene.h"
-#include "GameScene.h"
-#include "GameOverScene.h"
+#include "Scenes/StartScene/StartScene.h"
+#include "Scenes/GameScene/GameScene.h"
+#include "Scenes/GameOverScene/GameOverScene.h"
 
 SceneDirector::SceneDirector() {
   activeScene = SceneName::START_SCENE;

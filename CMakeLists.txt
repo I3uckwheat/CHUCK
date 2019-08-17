@@ -45,6 +45,18 @@ set_target_properties(SceneDirector
     CXX_STANDARD 17
   )
 
+add_library(Scene
+  STATIC
+    ./SceneDirector/Scenes/GameScene/GameScene.cpp
+    ./SceneDirector/Scenes/GameOverScene/GameOverScene.cpp
+    ./SceneDirector/Scenes/StartScene/StartScene.cpp
+    # ./SceneDirector.cpp
+  )
+set_target_properties(SceneDirector
+  PROPERTIES
+    CXX_STANDARD 17
+  )
+
 add_library(TiledAdapter
   STATIC
     ./TiledParser/TiledMap.cpp
@@ -56,7 +68,7 @@ set_target_properties(TiledAdapter
     CXX_STANDARD 17
   )
 
-target_link_libraries(SceneDirector TiledAdapter)
+target_link_libraries(SceneDirector TiledAdapter Scene)
 
 add_executable(${PROJECT_NAME} main.cpp)
 set_target_properties(${PROJECT_NAME}
