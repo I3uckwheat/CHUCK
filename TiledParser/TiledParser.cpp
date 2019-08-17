@@ -68,8 +68,8 @@ std::vector<std::vector<unsigned>> TileParser::getTileLayers(tinyxml2::XMLElemen
   return tilemaps;
 }
 
-std::unordered_map<std::string, std::vector<Rectangle>> TileParser::getObjectGroups(tinyxml2::XMLElement* mapElement) {
-  std::unordered_map<std::string, std::vector<Rectangle>> objectGroups;
+std::unordered_map<std::string, MapObjects> TileParser::getObjectGroups(tinyxml2::XMLElement* mapElement) {
+  std::unordered_map<std::string, MapObjects> objectGroups;
   tinyxml2::XMLElement* layer = mapElement->FirstChildElement("objectgroup");
 
   while(layer != NULL) {
@@ -80,23 +80,40 @@ std::unordered_map<std::string, std::vector<Rectangle>> TileParser::getObjectGro
   return objectGroups;
 }
 
-std::vector<Rectangle> TileParser::getObjectsFromGroup(tinyxml2::XMLElement* objectgroupElement) {
-  std::vector<Rectangle> objects;
+MapObjects TileParser::getObjectsFromGroup(tinyxml2::XMLElement* objectgroupElement) {
+  MapObjects mapObjects;
   tinyxml2::XMLElement* object = objectgroupElement->FirstChildElement("object");
+
+  int index = 0;
   while(object != NULL) {
     if (object->NoChildren()) { // If a rectangle, rectangle nodes have no children
-      float objX = object->FloatAttribute("x") * scale;
-      float objY = object->FloatAttribute("y") * scale;
-      float objWidth = object->FloatAttribute("width", 0.0f) * scale;
-      float objHeight = object->FloatAttribute("height", 0.0f) * scale;
+      Rectangle objectRect;
+      objectRect.x = object->FloatAttribute("x") * scale;
+      objectRect.y = object->FloatAttribute("y") * scale;
+      objectRect.width = object->FloatAttribute("width", 0.0f) * scale;
+      objectRect.height = object->FloatAttribute("height", 0.0f) * scale;
 
-      objects.push_back({objX, objY, objWidth, objHeight});
+      if (object->Attribute("name")) {
+        mapObjects.name.emplace_back(object->Attribute("name"));
+      } else {
+        mapObjects.name.emplace_back("");
+      }
+
+      if (object->Attribute("type")) {
+        mapObjects.type.emplace_back(object->Attribute("type"));
+      } else {
+        mapObjects.type.emplace_back("");
+      }
+
+      mapObjects.rectangle.emplace_back(objectRect);
+
     } else {
       std::cerr<<"\033[1;31mTiledParser: All objects must be rectangles in object layers\033[0m\n";
       exit(1);
     }
+    index++;
     object = object->NextSiblingElement("object");
   }
 
-  return objects;
+  return mapObjects;
 }

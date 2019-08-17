@@ -59,10 +59,10 @@ int main(void) {
             ClearBackground(RAYWHITE);
             BeginMode2D(camera);
               map1.draw({camera.offset.x, camera.offset.y}, screenWidth, screenHeight);
-              for(Rectangle rectangle : map1.getObjectGroup("collisions")) {
+              for(Rectangle rectangle : map1.getObjectGroup("collisions").rectangle) {
                 // DrawRectangleRec(rectangle, GREEN);
               }
-              for(Rectangle rectangle: map1.getObjectGroup("triggers")) {
+              for(Rectangle rectangle: map1.getObjectGroup("triggers").rectangle) {
                 // DrawRectangleRec(rectangle, BLUE);
               }
             DrawRectangle(player.x, player.y, 40, 40, RED);

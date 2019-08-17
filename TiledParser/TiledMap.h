@@ -13,8 +13,8 @@ public:
   // Getters
   const std::vector<unsigned>& getTilemapLayer(int layer);
   const std::vector<std::vector<unsigned>>& getTilemapLayers();
-  const std::vector<Rectangle>& getObjectGroup(std::string name);
-  const std::unordered_map<std::string, std::vector<Rectangle>>& getObjectGroups();
+  const MapObjects& getObjectGroup(std::string name);
+  const std::unordered_map<std::string, MapObjects>& getObjectGroups();
 private:
   TileParser mapData;
   void drawLayer(const std::vector<unsigned> tileMap, const Vector2& offset, const int& screenWidth, const int& screenHeight);
