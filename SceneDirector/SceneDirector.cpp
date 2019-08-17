@@ -1,16 +1,20 @@
 #include "SceneDirector.h"
 #include <memory>
 
-#include "Scenes.h"
+#include "StartScene.h"
+#include "GameScene.h"
+#include "GameOverScene.h"
 
 SceneDirector::SceneDirector() {
-  activeScene = SceneName::GAME_SCENE;
+  activeScene = SceneName::START_SCENE;
+  scenes.emplace(SceneName::START_SCENE, std::make_unique<StartScene>());
   scenes.emplace(SceneName::GAME_SCENE, std::make_unique<GameScene>());
   scenes.emplace(SceneName::GAME_OVER_SCENE, std::make_unique<GameOverScene>());
   scenes[activeScene]->init();
 }
 
 void SceneDirector::changeScene(SceneName sceneName) {
+  scenes[activeScene]->uninit();
   activeScene = sceneName;
   scenes[activeScene]->init();
 }

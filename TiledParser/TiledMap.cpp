@@ -15,6 +15,10 @@ void TiledMap::load(std::string assetDir, std::string mapName) { mapData = TileP
 
 void TiledMap::unload() {
   UnloadTexture(mapData.tileset);
+
+  // clean up the rest of the data
+  mapData.objectGroups.clear();
+  mapData.tilemaps.clear();
 }
 
 const std::vector<unsigned>& TiledMap::getTilemapLayer(int layer) { return mapData.tilemaps[layer]; };
