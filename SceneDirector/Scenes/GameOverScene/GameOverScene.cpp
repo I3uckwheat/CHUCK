@@ -1,5 +1,7 @@
 #include "GameOverScene.h"
 
+#include "raylib.h"
+
 void GameOverScene::init() {}
 
 void GameOverScene::update(SceneDirector* sceneDirector) {

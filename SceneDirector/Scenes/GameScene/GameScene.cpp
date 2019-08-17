@@ -11,8 +11,6 @@ void GameScene::init() {
   camera.offset = (Vector2){ 0, 0 };
   camera.rotation = 0.0f;
   camera.zoom = 1.0f;
-
-  uiStack.emplace(Ui());
 }
 
 void GameScene::update(SceneDirector* sceneDirector) {
@@ -41,8 +39,6 @@ void GameScene::update(SceneDirector* sceneDirector) {
   }
 
   camera.target = player;
-
-  // uiStack.top().update();
 }
 
 void GameScene::draw() {
@@ -50,8 +46,6 @@ void GameScene::draw() {
   map.draw({camera.offset.x, camera.offset.y}, GetScreenWidth(), GetScreenHeight());
   DrawRectangle(player.x, player.y, 40, 40, RED);
   EndMode2D();
-
-  uiStack.top().draw();
 }
 
 void GameScene::uninit() { 

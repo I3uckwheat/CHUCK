@@ -1,5 +1,7 @@
 #include "StartScene.h"
 
+#include "raylib.h"
+
 void StartScene::init() {}
 void StartScene::update(SceneDirector* sceneDirector) {
   if(IsKeyPressed(KEY_SPACE)) {

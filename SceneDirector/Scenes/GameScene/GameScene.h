@@ -2,6 +2,8 @@
 
 #include "Scene.h"
 #include "Ui.h"
+#include "raylib.h"
+#include "TiledMap.h"
 
 class GameScene: public Scene {
 private:
