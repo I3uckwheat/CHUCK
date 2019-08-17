@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="8" tileheight="8" infinite="0" nextlayerid="7" nextobjectid="29">
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="8" tileheight="8" infinite="0" nextlayerid="9" nextobjectid="35">
  <tileset firstgid="1" name="cavesofgallet_tiles" tilewidth="8" tileheight="8" tilecount="96" columns="8">
   <image source="cavesofgallet_tiles.png" trans="1f253d" width="64" height="96"/>
  </tileset>
@@ -118,5 +118,8 @@
  <objectgroup color="#55aa00" id="6" name="triggers">
   <object id="27" x="64.9091" y="0" width="78.1818" height="54.1818"/>
   <object id="28" x="263.75" y="115.25" width="96.25" height="20.5"/>
+ </objectgroup>
+ <objectgroup id="8" name="items">
+  <object id="34" name="birdy" type="NPC" gid="50" x="23.625" y="53.375" width="8" height="8"/>
  </objectgroup>
 </map>
