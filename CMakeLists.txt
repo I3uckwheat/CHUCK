@@ -34,6 +34,7 @@ include_directories(
   ./TiledParser/
   ./SceneDirector/
   ./SceneDirector/Scenes
+  ./SceneDirector/Scenes/Ui
   )
 
 add_library(SceneDirector
@@ -57,6 +58,16 @@ set_target_properties(SceneDirector
     CXX_STANDARD 17
   )
 
+add_library(Ui
+  STATIC
+    ./SceneDirector/Scenes/Ui/GameSceneUi.cpp
+    # ./SceneDirector.cpp
+  )
+set_target_properties(Ui
+  PROPERTIES
+    CXX_STANDARD 17
+  )
+
 add_library(TiledAdapter
   STATIC
     ./TiledParser/TiledMap.cpp
@@ -68,7 +79,7 @@ set_target_properties(TiledAdapter
     CXX_STANDARD 17
   )
 
-target_link_libraries(SceneDirector TiledAdapter Scene)
+target_link_libraries(SceneDirector TiledAdapter Scene Ui)
 
 add_executable(${PROJECT_NAME} main.cpp)
 set_target_properties(${PROJECT_NAME}

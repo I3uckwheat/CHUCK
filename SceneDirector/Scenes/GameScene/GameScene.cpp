@@ -1,5 +1,8 @@
 #include "GameScene.h"
 #include "SceneDirector.h"
+#include "./GameSceneUi.h"
+
+#include <memory>
 
 void GameScene::init() {
   map.load("./assets", "map2.tmx");
@@ -11,6 +14,8 @@ void GameScene::init() {
   camera.offset = (Vector2){ 0, 0 };
   camera.rotation = 0.0f;
   camera.zoom = 1.0f;
+
+  uiStack.emplace(std::make_unique<GameSceneUi>());
 }
 
 void GameScene::update(SceneDirector* sceneDirector) {
@@ -46,6 +51,8 @@ void GameScene::draw() {
   map.draw({camera.offset.x, camera.offset.y}, GetScreenWidth(), GetScreenHeight());
   DrawRectangle(player.x, player.y, 40, 40, RED);
   EndMode2D();
+
+  uiStack.top()->draw();
 }
 
 void GameScene::uninit() { 

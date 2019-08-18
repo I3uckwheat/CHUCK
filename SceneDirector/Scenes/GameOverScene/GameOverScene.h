@@ -4,8 +4,8 @@
 
 class GameOverScene: public Scene {
 public: 
-  void init(); 
-  void update(SceneDirector* sceneDirector); 
-  void draw(); 
-  void uninit();
+  void init() override; 
+  void update(SceneDirector* sceneDirector) override; 
+  void draw() override; 
+  void uninit() override;
 };

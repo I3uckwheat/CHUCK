@@ -4,6 +4,8 @@
 #include "Ui.h"
 #include "raylib.h"
 #include "TiledMap.h"
+#include "stack"
+#include <memory>
 
 class GameScene: public Scene {
 private:
@@ -12,8 +14,9 @@ private:
   Vector2 player;
 
 public: 
-  void init();
-  void update(SceneDirector* sceneDirector); 
-  void draw(); 
-  void uninit();
+  std::stack<std::unique_ptr<Ui>> uiStack;
+  void init() override;
+  void update(SceneDirector* sceneDirector) override; 
+  void draw() override; 
+  void uninit() override;
 };
