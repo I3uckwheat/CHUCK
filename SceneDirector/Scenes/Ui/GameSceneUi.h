@@ -2,8 +2,14 @@
 
 #include "Ui.h"
 
-class GameSceneUi: public Ui {
-public:
+class GameSceneUi : public Ui {
+  void update(std::vector<std::unique_ptr<Ui>>& uiLayers) override;
   void draw() override;
-  void update(Scene* scene) override;
+  bool hasKeyboardControl() override;
+  bool hasMouseControl() override;
+};
+
+class Inventory : public Ui {
+  void update(std::vector<std::unique_ptr<Ui>>& uiLayers) override;
+  void draw() override;
 };

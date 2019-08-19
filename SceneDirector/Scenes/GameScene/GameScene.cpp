@@ -15,35 +15,39 @@ void GameScene::init() {
   camera.rotation = 0.0f;
   camera.zoom = 1.0f;
 
-  uiStack.emplace(std::make_unique<GameSceneUi>());
+  uiLayers.emplace_back(std::make_unique<GameSceneUi>());
 }
 
 void GameScene::update(SceneDirector* sceneDirector) {
-  if(IsKeyDown(KEY_P)) {
-    sceneDirector->changeScene(SceneName::GAME_OVER_SCENE);
+  if(!uiLayers.back()->hasKeyboardControl()) {
+    if(IsKeyDown(KEY_P)) {
+      sceneDirector->changeScene(SceneName::GAME_OVER_SCENE);
+    }
+
+    if(IsKeyDown(KEY_D)) {
+      player.x += 3;
+      camera.offset.x -= 3;
+    }
+
+    if(IsKeyDown(KEY_A)) {
+      player.x -= 3;
+      camera.offset.x += 3;
+    }
+
+    if(IsKeyDown(KEY_S)) {
+      player.y += 3;
+      camera.offset.y -= 3;
+    }
+
+    if(IsKeyDown(KEY_W)) {
+      player.y -= 3;
+      camera.offset.y += 3;
+    }
+
+    camera.target = player;
   }
 
-  if(IsKeyDown(KEY_D)) {
-    player.x += 3;
-    camera.offset.x -= 3;
-  }
-
-  if(IsKeyDown(KEY_A)) {
-    player.x -= 3;
-    camera.offset.x += 3;
-  }
-
-  if(IsKeyDown(KEY_S)) {
-    player.y += 3;
-    camera.offset.y -= 3;
-  }
-
-  if(IsKeyDown(KEY_W)) {
-    player.y -= 3;
-    camera.offset.y += 3;
-  }
-
-  camera.target = player;
+  uiLayers.back()->update(uiLayers);
 }
 
 void GameScene::draw() {
@@ -52,7 +56,9 @@ void GameScene::draw() {
   DrawRectangle(player.x, player.y, 40, 40, RED);
   EndMode2D();
 
-  uiStack.top()->draw();
+  for(auto&& layerPtr: uiLayers) {
+    layerPtr->draw();
+  }
 }
 
 void GameScene::uninit() { 
