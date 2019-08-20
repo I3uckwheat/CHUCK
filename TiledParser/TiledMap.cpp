@@ -26,20 +26,20 @@ const std::vector<std::vector<unsigned>>& TiledMap::getTilemapLayers(){ return m
 const MapObjects& TiledMap::getObjectGroup(std::string name){ return mapData.objectGroups[name]; };
 const std::unordered_map<std::string, MapObjects>& TiledMap::getObjectGroups() { return mapData.objectGroups; }
 
-void TiledMap::draw(const Vector2& offset, const int& screenWidth, const int& screenHeight) {
+void TiledMap::draw(const Vector2& startVector, const int& screenWidth, const int& screenHeight) {
   for(std::vector<unsigned> tilemap : mapData.tilemaps) {
-    drawLayer(tilemap, offset, screenWidth, screenHeight);
+    drawLayer(tilemap, startVector, screenWidth, screenHeight);
   }
 }
 
-void TiledMap::drawLayer(const std::vector<unsigned> tileMap, const Vector2& offset, const int& screenWidth, const int& screenHeight) {
+void TiledMap::drawLayer(const std::vector<unsigned> tileMap, const Vector2& startVector, const int& screenWidth, const int& screenHeight) {
   int scale =  3;
 
   // Needs to be clamped to prevent drawing tiles from random memory
-  int startRow = helpers::clamp(-offset.x / (mapData.tileHeight * scale), 0.0f, (float)mapData.mapHeight);
+  int startRow = helpers::clamp(startVector.x / (mapData.tileHeight * scale), 0.0f, (float)mapData.mapHeight);
   int endRow = helpers::clamp((screenWidth / (mapData.tileWidth * scale)) + startRow + 8, 0, mapData.mapWidth);     // Add an extra tile to prevent visually drawing at edges
 
-  int startCol = helpers::clamp(-offset.y / (mapData.tileWidth * scale), 0.0f, (float)mapData.mapHeight);
+  int startCol = helpers::clamp(startVector.y / (mapData.tileWidth * scale), 0.0f, (float)mapData.mapHeight);
   int endCol = helpers::clamp((screenHeight / (mapData.tileHeight * scale)) + startCol + 8, 0, mapData.mapWidth);
 
   for(int row = startRow; row < endRow; row++) {

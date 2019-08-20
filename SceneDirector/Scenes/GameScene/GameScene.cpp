@@ -11,7 +11,7 @@ void GameScene::init() {
 
   camera = { 0 };
   camera.target = (Vector2){ player.x, player.y };
-  camera.offset = (Vector2){ GetScreenWidth() / 2, GetScreenHeight() / 2 };
+  camera.offset = (Vector2){ GetScreenWidth() / 2.0f, GetScreenHeight() / 2.0f };
   camera.rotation = 0.0f;
   camera.zoom = 1.0f;
 
@@ -26,22 +26,18 @@ void GameScene::update(SceneDirector* sceneDirector) {
 
     if(IsKeyDown(KEY_D)) {
       player.x += 3;
-      // camera.offset.x -= 3;
     }
 
     if(IsKeyDown(KEY_A)) {
       player.x -= 3;
-      // camera.offset.x += 3;
     }
 
     if(IsKeyDown(KEY_S)) {
       player.y += 3;
-      // camera.offset.y -= 3;
     }
 
     if(IsKeyDown(KEY_W)) {
       player.y -= 3;
-      // camera.offset.y += 3;
     }
 
     camera.target = player;
@@ -52,7 +48,7 @@ void GameScene::update(SceneDirector* sceneDirector) {
 
 void GameScene::draw() {
   BeginMode2D(camera);
-  map.draw({camera.offset.x, camera.offset.y}, GetScreenWidth(), GetScreenHeight());
+  map.draw({player.x - GetScreenWidth() / 2.0f, player.y - GetScreenHeight() / 2.0f}, GetScreenWidth(), GetScreenHeight());
   DrawRectangle(player.x, player.y, 40, 40, RED);
   EndMode2D();
 
