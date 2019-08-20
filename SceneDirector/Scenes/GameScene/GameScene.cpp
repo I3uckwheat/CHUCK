@@ -36,8 +36,8 @@ void GameScene::update(SceneDirector* sceneDirector) {
       playerAction.moveLeft = true;
     }
 
-    camera.target = player.position;
     player.update(playerAction);
+    camera.target = player.position;
   }
 
   uiLayers.back()->update(uiLayers);
