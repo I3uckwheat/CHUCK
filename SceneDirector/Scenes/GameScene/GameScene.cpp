@@ -4,18 +4,20 @@
 
 #include <memory>
 
+#include "raylib.h"
+#include "Entity.h"
+
 void GameScene::init() {
   map.load("./assets", "map2.tmx");
 
-  player = { 200, 200 };
+  uiLayers.emplace_back(std::make_unique<GameSceneUi>());
+  player.init("../assets/KNIGHT_WHITE.png", Rectangle{0, 0, 16, 16}, Vector2{60, 120});
 
   camera = { 0 };
-  camera.target = (Vector2){ player.x, player.y };
+  camera.target = (Vector2){ player.position.x, player.position.y };
   camera.offset = (Vector2){ GetScreenWidth() / 2.0f, GetScreenHeight() / 2.0f };
   camera.rotation = 0.0f;
   camera.zoom = 1.0f;
-
-  uiLayers.emplace_back(std::make_unique<GameSceneUi>());
 }
 
 void GameScene::update(SceneDirector* sceneDirector) {
@@ -24,23 +26,18 @@ void GameScene::update(SceneDirector* sceneDirector) {
       sceneDirector->changeScene(SceneName::GAME_OVER_SCENE);
     }
 
+    Actions playerAction;
+
     if(IsKeyDown(KEY_D)) {
-      player.x += 3;
+      playerAction.moveRight = true;
     }
 
     if(IsKeyDown(KEY_A)) {
-      player.x -= 3;
+      playerAction.moveLeft = true;
     }
 
-    if(IsKeyDown(KEY_S)) {
-      player.y += 3;
-    }
-
-    if(IsKeyDown(KEY_W)) {
-      player.y -= 3;
-    }
-
-    camera.target = player;
+    camera.target = player.center();
+    player.update(playerAction);
   }
 
   uiLayers.back()->update(uiLayers);
@@ -48,8 +45,8 @@ void GameScene::update(SceneDirector* sceneDirector) {
 
 void GameScene::draw() {
   BeginMode2D(camera);
-  map.draw({player.x - GetScreenWidth() / 2.0f, player.y - GetScreenHeight() / 2.0f}, GetScreenWidth(), GetScreenHeight());
-  DrawRectangle(player.x, player.y, 40, 40, RED);
+  map.draw({player.position.x - GetScreenWidth() / 2.0f, player.position.y - GetScreenHeight() / 2.0f}, GetScreenWidth(), GetScreenHeight());
+  player.draw();
   EndMode2D();
 
   for(auto&& layerPtr: uiLayers) {
@@ -58,5 +55,6 @@ void GameScene::draw() {
 }
 
 void GameScene::uninit() { 
+  player.uninit();
   map.unload(); 
 }

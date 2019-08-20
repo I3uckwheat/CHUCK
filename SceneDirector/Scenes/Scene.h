@@ -1,6 +1,7 @@
 #pragma once
 #include "SceneDirector.h"
 #include "Ui.h"
+#include "Entity.h"
 #include <stack>
 #include <vector>
 
@@ -10,6 +11,7 @@ class Ui;
 class Scene {
 public:
   virtual ~Scene() {};
+  std::vector<std::unique_ptr<Entity>> entities;
   std::vector<std::unique_ptr<Ui>> uiStack;
   virtual void init() =0;
   virtual void update(SceneDirector* sceneDirector) =0;
