@@ -36,7 +36,7 @@ void GameScene::update(SceneDirector* sceneDirector) {
       playerAction.moveLeft = true;
     }
 
-    camera.target = player.center();
+    camera.target = player.position;
     player.update(playerAction);
   }
 

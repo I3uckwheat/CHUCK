@@ -27,6 +27,5 @@ public:
   virtual void init(std::string spriteSheetPath, Rectangle hitboxLocation, Vector2 startPosition);
   virtual void draw();
   virtual void update(Actions& actions);
-  virtual Vector2 center();
   virtual void uninit();
 };

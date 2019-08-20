@@ -15,7 +15,7 @@ Entity::Entity(std::string spriteSheetPath, Rectangle hitboxLocation, Vector2 st
 
 
 void Entity::draw() {
-  DrawTexturePro(spriteSheet, {0, 0, 16, 16}, {position.x, position.y, 16 * scale, 16 * scale}, {0, 0}, 0, WHITE);
+  DrawTexturePro(spriteSheet, {0, 0, 16, 16}, {position.x, position.y, 16.0f * scale, 16.0f * scale}, {0, 0}, 0, WHITE);
 }
 
 void Entity::update(Actions& actions) {
@@ -25,10 +25,6 @@ void Entity::update(Actions& actions) {
   if(actions.moveRight) {
     position.x += 3;
   }
-}
-
-Vector2 Entity::center() {
-  return {hitbox.x / hitbox.width, hitbox.y / hitbox.height};
 }
 
 void Entity::init(std::string spriteSheetPath, Rectangle hitboxLocation, Vector2 startPosition) {
