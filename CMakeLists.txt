@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.11) # FetchContent is available in 3.11+
+
 project(TiledParser)
+
+set (CMAKE_CXX_STANDARD 17)
 
 find_package(raylib 2.0 QUIET) # Let CMake search for a raylib-config.cmake
 
@@ -32,31 +35,47 @@ endif()
 include_directories(
   ./lib/tinyxml2/
   ./TiledParser/
+  ./SceneDirector/
+  ./SceneDirector/Scenes
+  ./SceneDirector/Scenes/Ui
   )
+
+add_library(SceneDirector
+  STATIC
+    ./SceneDirector/SceneDirector.cpp
+  )
+
+add_library(Scene
+  STATIC
+    ./SceneDirector/Scenes/GameScene/GameScene.cpp
+    ./SceneDirector/Scenes/GameOverScene/GameOverScene.cpp
+    ./SceneDirector/Scenes/StartScene/StartScene.cpp
+    # ./SceneDirector.cpp
+  )
+
+target_link_libraries(Scene raylib)
+
+add_library(Ui
+  STATIC
+    ./SceneDirector/Scenes/Ui/GameSceneUi.cpp
+    # ./SceneDirector.cpp
+  )
+target_link_libraries(Ui raylib)
 
 add_library(TiledAdapter
   STATIC
-    ./TiledParser/TiledMap.h
     ./TiledParser/TiledMap.cpp
-    ./TiledParser/TiledParser.h
     ./TiledParser/TiledParser.cpp
-    ./TiledParser/helpers.h
-    ./lib/tinyxml2/tinyxml2.h
     ./lib/tinyxml2/tinyxml2.cpp
-  )
-set_target_properties(TiledAdapter
-  PROPERTIES
-    CXX_STANDARD 17
   )
 
 target_link_libraries(TiledAdapter raylib)
 
+target_link_libraries(SceneDirector TiledAdapter Scene Ui)
+
 add_executable(${PROJECT_NAME} main.cpp)
-set_target_properties(${PROJECT_NAME}
-  PROPERTIES
-    CXX_STANDARD 17
-  )
+
 #set(raylib_VERBOSE )
-target_link_libraries(${PROJECT_NAME} raylib TiledAdapter)
+target_link_libraries(${PROJECT_NAME} raylib TiledAdapter SceneDirector)
 
 # That's it! You should have an example executable that you can run. Have fun!
