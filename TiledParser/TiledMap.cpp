@@ -37,10 +37,10 @@ void TiledMap::drawLayer(const std::vector<unsigned> tileMap, const Vector2& off
 
   // Needs to be clamped to prevent drawing tiles from random memory
   int startRow = helpers::clamp(-offset.x / (mapData.tileHeight * scale), 0.0f, (float)mapData.mapHeight);
-  int endRow = helpers::clamp((screenWidth / (mapData.tileWidth * scale)) + startRow + 2, 0, mapData.mapWidth);     // Add an extra tile to prevent visually drawing at edges
+  int endRow = helpers::clamp((screenWidth / (mapData.tileWidth * scale)) + startRow + 8, 0, mapData.mapWidth);     // Add an extra tile to prevent visually drawing at edges
 
   int startCol = helpers::clamp(-offset.y / (mapData.tileWidth * scale), 0.0f, (float)mapData.mapHeight);
-  int endCol = helpers::clamp((screenHeight / (mapData.tileHeight * scale)) + startCol + 2, 0, mapData.mapWidth);
+  int endCol = helpers::clamp((screenHeight / (mapData.tileHeight * scale)) + startCol + 8, 0, mapData.mapWidth);
 
   for(int row = startRow; row < endRow; row++) {
     for(int column = startCol; column < endCol; column++) {
