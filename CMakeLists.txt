@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.11) # FetchContent is available in 3.11+
+
 project(TiledParser)
+
+set (CMAKE_CXX_STANDARD 17)
 
 find_package(raylib 2.0 QUIET) # Let CMake search for a raylib-config.cmake
 
@@ -41,10 +44,6 @@ add_library(SceneDirector
   STATIC
     ./SceneDirector/SceneDirector.cpp
   )
-set_target_properties(SceneDirector
-  PROPERTIES
-    CXX_STANDARD 17
-  )
 
 add_library(Scene
   STATIC
@@ -53,20 +52,15 @@ add_library(Scene
     ./SceneDirector/Scenes/StartScene/StartScene.cpp
     # ./SceneDirector.cpp
   )
-set_target_properties(SceneDirector
-  PROPERTIES
-    CXX_STANDARD 17
-  )
+
+target_link_libraries(Scene raylib)
 
 add_library(Ui
   STATIC
     ./SceneDirector/Scenes/Ui/GameSceneUi.cpp
     # ./SceneDirector.cpp
   )
-set_target_properties(Ui
-  PROPERTIES
-    CXX_STANDARD 17
-  )
+target_link_libraries(Ui raylib)
 
 add_library(TiledAdapter
   STATIC
@@ -74,18 +68,13 @@ add_library(TiledAdapter
     ./TiledParser/TiledParser.cpp
     ./lib/tinyxml2/tinyxml2.cpp
   )
-set_target_properties(TiledAdapter
-  PROPERTIES
-    CXX_STANDARD 17
-  )
+
+target_link_libraries(TiledAdapter raylib)
 
 target_link_libraries(SceneDirector TiledAdapter Scene Ui)
 
 add_executable(${PROJECT_NAME} main.cpp)
-set_target_properties(${PROJECT_NAME}
-  PROPERTIES
-    CXX_STANDARD 17
-  )
+
 #set(raylib_VERBOSE )
 target_link_libraries(${PROJECT_NAME} raylib TiledAdapter SceneDirector)
 
