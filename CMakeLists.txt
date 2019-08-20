@@ -35,6 +35,16 @@ include_directories(
   ./SceneDirector/
   ./SceneDirector/Scenes
   ./SceneDirector/Scenes/Ui
+  ./Entities
+  )
+  
+add_library(Entities
+  STATIC
+    ./Entities/Entity.cpp
+  )
+set_target_properties(Entities
+  PROPERTIES
+    CXX_STANDARD 17
   )
 
 add_library(SceneDirector
@@ -79,7 +89,7 @@ set_target_properties(TiledAdapter
     CXX_STANDARD 17
   )
 
-target_link_libraries(SceneDirector TiledAdapter Scene Ui)
+target_link_libraries(SceneDirector TiledAdapter Scene Ui Entities)
 
 add_executable(${PROJECT_NAME} main.cpp)
 set_target_properties(${PROJECT_NAME}
