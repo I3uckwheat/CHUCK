@@ -19,7 +19,8 @@ Entity::Entity(std::string spriteSheetPath, Rectangle hitboxLocation, Vector2 st
 void Entity::draw() {
   DrawTexturePro(spriteSheet, {0, 0, 16, 16}, {position.x, position.y, 16.0f * scale, 16.0f * scale}, {0, 0}, 0, WHITE);
 }
-void Entity::update(Actions& actions, TiledMap map) {
+
+void Entity::update(Actions& actions, TiledMap& map) {
   int startx = position.x;
 
   if(actions.moveLeft) {

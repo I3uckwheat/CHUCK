@@ -30,6 +30,6 @@ public:
 
   virtual void init(std::string spriteSheetPath, Rectangle hitboxLocation, Vector2 startPosition);
   virtual void draw();
-  virtual void update(Actions& actions, TiledMap map);
+  virtual void update(Actions& actions, TiledMap& map);
   virtual void uninit();
 };
