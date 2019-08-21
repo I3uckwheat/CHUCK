@@ -29,7 +29,7 @@ void Entity::update(Actions& actions, TiledMap map) {
     position.x += 3;
   }
   if(actions.jump) {
-    dy = 3;
+    dy = -5;
   }
   
   // gravity!
@@ -39,7 +39,7 @@ void Entity::update(Actions& actions, TiledMap map) {
   /* iterate through collision layer */
   bool collision{false};
   Rectangle boxCollision = {};
-  for(Rectangle rect : map.getObjectGroup("collisions").rectangle) {
+  for(const Rectangle& rect : map.getObjectGroup("collisions").rectangle) {
     collision = CheckCollisionRecs(rect, getHitBox()) ;
     if (collision) {
       boxCollision = GetCollisionRec(rect, getHitBox());

@@ -36,9 +36,9 @@ void GameScene::update(SceneDirector* sceneDirector) {
       playerAction.moveLeft = true;
     }
 
-    /* if(IsKeyDown(KEY_SPACE)) { */
-    /*   playerAction.jump = true; */
-    /* } */
+    if(IsKeyDown(KEY_SPACE)) {
+      playerAction.jump = true;
+    }
 
     camera.target = player.position;
     player.update(playerAction, map);
@@ -50,9 +50,9 @@ void GameScene::update(SceneDirector* sceneDirector) {
 void GameScene::draw() {
   BeginMode2D(camera);
     map.draw({player.position.x - GetScreenWidth() / 2.0f, player.position.y - GetScreenHeight() / 2.0f}, GetScreenWidth(), GetScreenHeight());
-    for(Rectangle rect : map.getObjectGroup("collisions").rectangle) {
-      DrawRectangleRec(rect, GREEN);
-    }
+    /* for(Rectangle rect : map.getObjectGroup("collisions").rectangle) { */
+    /*   DrawRectangleRec(rect, GREEN); */
+    /* } */
     player.draw();
     DrawRectangleRec(player.getHitBox(), RED);
   EndMode2D();
