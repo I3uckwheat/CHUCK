@@ -39,10 +39,13 @@ void Entity::update(Actions& actions, TiledMap map) {
   /* iterate through collision layer */
   bool collision{false};
   Rectangle boxCollision = {};
-  for(const Rectangle& rect : map.getObjectGroup("collisions").rectangle) {
-    collision = CheckCollisionRecs(rect, getHitBox()) ;
+    std::vector<Rectangle> collisionRects = map.getObjectGroup("collisions").rectangle;
+
+  // for(const Rectangle& rect : map.getObjectGroup("collisions").rectangle) {
+    for(auto rect = collisionRects.begin(); rect < collisionRects.end(); rect++) {
+    collision = CheckCollisionRecs(*rect, getHitBox()) ;
     if (collision) {
-      boxCollision = GetCollisionRec(rect, getHitBox());
+      boxCollision = GetCollisionRec(*rect, getHitBox());
 
       bool bottomCollision = boxCollision.width > boxCollision.height && position.y < boxCollision.y;
       bool topCollision = boxCollision.width > boxCollision.height && position.y == boxCollision.y;
