@@ -1,5 +1,6 @@
 #include "Entity.h"
 #include "raylib.h"
+#include "Animation.h"
 
 #include <string>
 #include <iostream>
@@ -8,22 +9,24 @@ Entity::Entity() {
 };
 
 Entity::Entity(std::string spriteSheetPath, Rectangle hitboxLocation, Vector2 startPosition) {
-  spriteSheet = LoadTexture(spriteSheetPath.c_str());
   hitbox = hitboxLocation;
   position = startPosition;
 }
 
-
 void Entity::draw() {
-  DrawTexturePro(spriteSheet, {0, 0, 16, 16}, {position.x, position.y, 16.0f * scale, 16.0f * scale}, {0, 0}, 0, WHITE);
+  animation.play(AnimationState::WALK, Direction::LEFT);
 }
 
 void Entity::update(Actions& actions) {
+  animation.drawLocation = position;
   if(actions.moveLeft) {
     position.x -= 3;
-  }
-  if(actions.moveRight) {
+    // animation.play(AnimationState::WALK, Direction::LEFT);
+  } else if(actions.moveRight) {
     position.x += 3;
+    // animation.play(AnimationState::WALK, Direction::RIGHT);
+  } else {
+    animation.play(AnimationState::IDLE, Direction::ANY);
   }
 }
 
@@ -34,5 +37,4 @@ void Entity::init(std::string spriteSheetPath, Rectangle hitboxLocation, Vector2
 }
 
 void Entity::uninit() {
-  UnloadTexture(spriteSheet);
 }

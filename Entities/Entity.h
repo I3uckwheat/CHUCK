@@ -1,6 +1,7 @@
 #pragma once
 
 #include "raylib.h"
+#include "PlayerAnimation.h"
 #include <string>
 #include <iostream>
 
@@ -13,8 +14,13 @@ struct Actions {
 class Entity {
 private:
   Texture2D spriteSheet;
+
+  // TODO break out to abstract class
+  PlayerAnimation animation;
+
   Rectangle hitbox{ 0, 0, 16, 16 };
   int scale{3};
+
 public:
   Vector2 position{ 0, 0 };
   Entity();

@@ -39,7 +39,20 @@ include_directories(
   ./SceneDirector/Scenes
   ./SceneDirector/Scenes/Ui
   ./Entities
+  ./Animation
   )
+  
+add_library(Animation
+  STATIC
+    ./Animation/Animation.cpp
+    ./Entities/PlayerAnimation.cpp
+  )
+set_target_properties(Animation
+  PROPERTIES
+    CXX_STANDARD 17
+  )
+
+target_link_libraries(Animation raylib)
   
 add_library(Entities
   STATIC
@@ -50,7 +63,7 @@ set_target_properties(Entities
     CXX_STANDARD 17
   )
 
-target_link_libraries(Entities raylib)
+target_link_libraries(Entities Animation raylib)
 
 add_library(SceneDirector
   STATIC
